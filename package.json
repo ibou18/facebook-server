@@ -1,0 +1,33 @@
+{
+  "name": "senepave",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server",
+    "client": "npm start --prefix client",
+    "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
+  },
+  "keywords": [],
+  "author": "Laguidev",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1056.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "mongoose-sequence": "^5.3.1",
+    "multer": "^1.4.4",
+    "multer-s3": "^2.10.0",
+    "nodemailer": "^6.7.3",
+    "validator": "^13.6.0"
+  }
+}
