@@ -1,7 +1,8 @@
 const UserModel = require("../models/userModel");
 const FactureModel = require("../models/factureModel");
-const DevisModel = require("../models/devisModel");
+const BillModel = require("../models/billModel");
 const ClientModel = require("../models/clientModel");
+const PaiementModel = require("../models/paiementModel");
 const sendEmail = require("../utils/sendMail");
 
 const ObjectID = require("mongoose").Types.ObjectId;
@@ -56,17 +57,18 @@ module.exports.deleteUser = async (req, res) => {
   }
 };
 module.exports.getStatistique = async (req, res) => {
-  const totalFacture = await FactureModel.find().countDocuments();
-  const totalDevis = await DevisModel.find().countDocuments();
+  const totalPaiement = await PaiementModel.find().countDocuments();
+  const totalBill = await BillModel.find().countDocuments();
   const totalClient = await ClientModel.find().countDocuments();
   const factures = await FactureModel.find().select();
   // const facturesF = await FactureModel.find().group('createdAt').select();
-  let monthGraph = await FactureModel.aggregate([
+
+  let monthGraph = await BillModel.aggregate([
     {
       $group: {
         _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
         MontantTotal: {
-          $sum: "$montantHt",
+          $sum: "$remittance",
         },
       },
     },
@@ -93,8 +95,8 @@ module.exports.getStatistique = async (req, res) => {
   return res.status(200).send({
     status: "success",
     statistique: {
-      totalFacture,
-      totalDevis,
+      totalPaiement,
+      totalBill,
       totalClient,
       MontantHt,
       MontantTtc,

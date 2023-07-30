@@ -30,7 +30,7 @@ const billShema = new mongoose.Schema(
       type: Number,
     },
     remittance: {
-      type: String,
+      type: Number,
     },
     Total: {
       type: String,
