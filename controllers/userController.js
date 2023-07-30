@@ -74,17 +74,6 @@ module.exports.getStatistique = async (req, res) => {
     },
   ]);
 
-  let dayGraph = await FactureModel.aggregate([
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-        MontantTotal: {
-          $sum: "$montantHt",
-        },
-      },
-    },
-  ]);
-
   let MontantHt = 0;
   let MontantTtc = 0;
   await factures.forEach((facture) => {
@@ -101,7 +90,6 @@ module.exports.getStatistique = async (req, res) => {
       MontantHt,
       MontantTtc,
       monthGraph,
-      dayGraph,
     },
   });
 };
