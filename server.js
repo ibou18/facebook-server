@@ -24,6 +24,7 @@ var whitelist = [
   "http://localhost:3000",
   "https://senepave-client.vercel.app",
   "https://www.senepave.fr",
+  "https://facebook-front-uubv.vercel.app",
 ];
 const corsOptions = {
   // origin: process.env.CLIENT_URL,
