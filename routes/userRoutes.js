@@ -24,6 +24,7 @@ router.get("/statistique", userController.getStatistique);
 // router.get("/:id", requireAuth, userController.userInfo);
 // router.put("/:id", requireAuth, userController.updateUser);
 // router.delete("/:id", requireAuth, userController.deleteUser);
+
 router.get("/", userController.getAllUsers);
 router.get("/:id", userController.userInfo);
 router.put("/:id", userController.updateUser);

@@ -28,11 +28,14 @@ module.exports.requireAuth = (req, res, next) => {
   // : req.headers["x-access-token"];
 
   console.log("__TOKEN__**", token);
+  // var decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+  // console.log("decoded", decoded);
 
   if (token) {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
+      console.log("decodedToken", decodedToken);
       if (err) {
-        console.log(err);
+        console.log("🔴ERRRRR", err);
         res.status(200).send("no token");
         res.status(401).send("not authorized");
       } else {
