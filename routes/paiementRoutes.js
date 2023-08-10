@@ -26,7 +26,7 @@ const upload = multer({ dest: "uploads/" });
 
 router.get("/", paiementController.getAll);
 router.get("/detail", paiementController.getPaiementbyName);
-router.get("/upload", upload.single("file"), paiementController.uploadJson);
+router.post("/upload", upload.single("file"), paiementController.uploadJson);
 router.post("/", uploadMaterielImage.array("files"), paiementController.create);
 router.get("/:id", paiementController.info);
 router.patch(

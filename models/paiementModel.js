@@ -2,63 +2,62 @@ const mongoose = require("mongoose");
 var AutoIncrement = require("mongoose-sequence")(mongoose);
 const paiementShema = new mongoose.Schema(
   {
-    idClient: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Client",
-    },
-    Payment_Number: {
+    payment_number: {
       type: Number,
     },
-    Payment_Date: {
+    payment_date: {
       type: Date,
       required: true,
     },
-    Payment_Currency: {
+    payment_currency: {
       type: String,
       required: true,
     },
-    Payment_Amount: {
+    payment_amount: {
       type: String,
       required: true,
     },
-    Total: {
+    total: {
       type: String,
       required: true,
     },
     tab: {
-      type: [
-        {
-          payout_reference: {
-            type: Number,
-            // required: true,
-          },
-          payout_period_start: {
-            type: String,
-            // required: true,
-          },
-          payout_period_end: {
-            type: String,
-            // required: true,
-          },
-          product: {
-            type: String,
-            // required: true,
-          },
-          facebook_name: {
-            type: String,
-            // required: true,
-          },
-          facebook_Id: {
-            type: String,
-            default: "",
-          },
-          remittance: {
-            type: Number,
-            default: "",
-          },
-        },
-      ],
+      type: Array,
     },
+    // tab: {
+    //   type: [
+    //     {
+    //       payout_reference: {
+    //         type: Number,
+    //         // required: true,
+    //       },
+    //       payout_period_start: {
+    //         type: String,
+    //         // required: true,
+    //       },
+    //       payout_period_end: {
+    //         type: String,
+    //         // required: true,
+    //       },
+    //       product: {
+    //         type: String,
+    //         // required: true,
+    //       },
+    //       facebook_name: {
+    //         type: String,
+    //         // required: true,
+    //       },
+    //       facebook_Id: {
+    //         type: String,
+    //         default: "",
+    //       },
+    //       remittance: {
+    //         type: Number,
+    //         default: "",
+    //       },
+    //     },
+    //   ],
+    // },
     statut: {
       type: Boolean,
       default: false,

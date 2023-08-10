@@ -3,6 +3,7 @@ const sendEmail = require("../utils/sendMail");
 const { traitement } = require("../utils/traitement");
 const ObjectID = require("mongoose").Types.ObjectId;
 const paiement = require("../data/bill.json");
+const fs = require("fs");
 
 module.exports.getAll = async (req, res) => {
   const paiement = await PaiementModel.find().sort({ createdAt: -1 }).select();
@@ -17,8 +18,45 @@ module.exports.uploadJson = async (req, res) => {
   // Do something with the uploaded file here, for example, save it to a database
   console.log("File received:", req.file);
 
-  // Respond with a success message or any other data you want to send back
-  return res.json({ message: "File uploaded successfully." });
+  // Read the uploaded file
+  fs.readFile(req.file.path, "utf8", async (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).json({ error: "Error reading the file." });
+    }
+
+    // Parse the JSON data
+    let jsonData;
+    try {
+      jsonData = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      return res.status(500).json({ error: "Error parsing JSON data." });
+    }
+
+    // Do something with the jsonData, for example, save it to a database
+    console.log("Data from the file:", jsonData);
+
+    const datatoSave = {
+      payment_number: jsonData.payment_number,
+      payment_date: jsonData.payment_date,
+      payment_currency: jsonData.payment_currency,
+      payment_amount: jsonData.payment_amount,
+      total: jsonData.total,
+      tab: jsonData.tab,
+    };
+
+    PaiementModel.create(datatoSave);
+
+    const allPaiement = await PaiementModel.find().select();
+
+    // Respond with a success message or any other data you want to send back
+    return res.status(200).send({
+      status: " success",
+      data: allPaiement,
+      message: "all Success and data in database",
+    });
+  });
 };
 
 module.exports.getPaiementbyName = async (req, res) => {

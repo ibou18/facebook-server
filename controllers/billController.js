@@ -186,6 +186,7 @@ module.exports.delete = async (req, res) => {
     return res.status(500).send({ message: err });
   }
 };
+
 module.exports.sendPaiement = async (req, res) => {
   console.log("Paiement controller", req.body);
   const resetUrl = `${process.env.CLIENT_URL}/commande/${req.body.id}`;
@@ -209,6 +210,7 @@ module.exports.sendPaiement = async (req, res) => {
     return res.status(500).send({ status: "error", message: err });
   }
 };
+
 const sendMail = async (email, phone, numeroCommande, name, test) => {
   if (test) {
     let subject = `Vous avez recu une commande `;
