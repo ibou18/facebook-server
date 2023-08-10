@@ -25,6 +25,7 @@ var whitelist = [
   "https://senepave-client.vercel.app",
   "https://www.senepave.fr",
   "https://facebook-front-uubv.vercel.app",
+  "https://facebook-front.vercel.app",
 ];
 const corsOptions = {
   // origin: process.env.CLIENT_URL,
