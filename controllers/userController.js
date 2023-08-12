@@ -56,6 +56,7 @@ module.exports.deleteUser = async (req, res) => {
     return res.status(500).send({ status: "success", message: err });
   }
 };
+
 module.exports.getStatistique = async (req, res) => {
   const totalPaiement = await PaiementModel.find().countDocuments();
   const totalBill = await BillModel.find().countDocuments();

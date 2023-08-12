@@ -20,9 +20,7 @@ const billRoutes = require("./routes/billRoutes");
 // const { checkUser, requireAuth } = require("./middleware/auth.middleware");
 
 var whitelist = [
-  "https://senepave.herokuapp.com",
   "http://localhost:3000",
-  "https://senepave-client.vercel.app",
   "https://facebook-front-uubv.vercel.app",
   "https://facebook-front.vercel.app",
 ];
@@ -41,6 +39,7 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
