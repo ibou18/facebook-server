@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 var AutoIncrement = require("mongoose-sequence")(mongoose);
 const paiementShema = new mongoose.Schema(
   {
+    Payee: {
+      type: Number,
+    },
     payment_number: {
       type: Number,
     },

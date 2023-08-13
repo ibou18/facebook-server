@@ -60,14 +60,26 @@ module.exports.uploadJson = async (req, res) => {
 };
 
 module.exports.getPaiementbyName = async (req, res) => {
-  console.log("paiement", paiement);
-  paiement.tab.forEach((element) => {
-    PaiementModel.create(element);
+  const paiement = await PaiementModel.find().sort({ createdAt: -1 }).select();
+
+  const facebook_Id = req.params.facebook_Id;
+
+  let _temp = [];
+  paiement.map((item) => {
+    // console.log("🚀item", item.tab);
+    _temp.push(item.tab);
   });
-  // const paiement = await PaiementModel.find({ _id: req.params._id })
-  //   .sort({ createdAt: -1 })
-  //   .select();
-  // return res.status(200).send({ status: " success", data });
+  const allTabs = _temp.flat();
+
+  const result = allTabs.filter((item) => item.facebook_Id === facebook_Id);
+  const total_remittance = result.reduce(
+    (sum, item) => sum + item.remittance,
+    0
+  );
+  console.log("total :>> ", total_remittance.toFixed(2));
+  return res
+    .status(200)
+    .send({ status: " success", data: result, total_remittance });
 };
 
 module.exports.getAllEnded = async (req, res) => {
@@ -172,6 +184,7 @@ module.exports.delete = async (req, res) => {
     return res.status(500).send({ message: err });
   }
 };
+
 module.exports.sendPaiement = async (req, res) => {
   console.log("Paiement controller", req.body);
   const resetUrl = `${process.env.CLIENT_URL}/commande/${req.body.id}`;
@@ -195,6 +208,7 @@ module.exports.sendPaiement = async (req, res) => {
     return res.status(500).send({ status: "error", message: err });
   }
 };
+
 const sendMail = async (email, phone, numeroCommande, name, test) => {
   if (test) {
     let subject = `Vous avez recu une commande `;

@@ -25,7 +25,7 @@ var uploadMaterielImage = multer({
 const upload = multer({ dest: "uploads/" });
 
 router.get("/", paiementController.getAll);
-router.get("/detail", paiementController.getPaiementbyName);
+router.get("/detail/:facebook_Id", paiementController.getPaiementbyName);
 router.post("/upload", upload.single("file"), paiementController.uploadJson);
 router.post("/", uploadMaterielImage.array("files"), paiementController.create);
 router.get("/:id", paiementController.info);

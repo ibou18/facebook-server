@@ -6,6 +6,11 @@ module.exports.getAllClient = async (req, res) => {
   return res.status(200).send({ status: "success", clients });
 };
 
+module.exports.getClient = async (req, res) => {
+  const clients = await ClientModel.findOne({ _id: req.params.id }).select();
+  return res.status(200).send({ status: "success", clients });
+};
+
 module.exports.createBulk = async (req, res) => {
   const bulkData = [
     {
