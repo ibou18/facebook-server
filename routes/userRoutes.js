@@ -20,10 +20,10 @@ router.post("/send-document", userController.sendDocument);
 router.get("/statistique", userController.getStatistique);
 
 // user DB
-router.get("/", requireAuth, userController.getAllUsers);
-router.get("/:id", requireAuth, userController.userInfo);
-router.put("/:id", requireAuth, userController.updateUser);
-router.delete("/:id", requireAuth, userController.deleteUser);
+router.get("/", userController.getAllUsers);
+router.get("/:id", userController.userInfo);
+router.put("/:id", userController.updateUser);
+router.delete("/:id", userController.deleteUser);
 
 // router.get("/", userController.getAllUsers);
 // router.get("/:id", userController.userInfo);

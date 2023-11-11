@@ -27,11 +27,12 @@ var uploadMaterielImage = multer({
 const upload = multer({ dest: "uploads/" });
 
 router.get("/", billController.getAll);
-router.get("/detail", billController.saveBills);
+router.post("/month", billController.saveBills);
 // router.get("/info", billController.info);
 router.post("/upload", upload.single("file"), billController.uploadJson);
 router.post("/", uploadMaterielImage.array("files"), billController.create);
 router.get("/:id", billController.info);
+router.get("/by-facebook/:id", billController.infobyFacebookId);
 router.patch("/:id", uploadMaterielImage.array("files"), billController.update);
 router.delete("/:id", billController.delete);
 

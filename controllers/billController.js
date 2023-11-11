@@ -55,13 +55,28 @@ module.exports.uploadJson = async (req, res) => {
 };
 
 module.exports.saveBills = async (req, res) => {
-  console.log("bill", bill);
-  bill.tab.forEach((element) => {
-    BillModel.create(element);
-  });
-  const allPaiement = await BillModel.find().select();
+  try {
+    let currentDate;
+    req.body.tab.forEach((element) => {
+      currentDate = element.payout_period_start;
+      BillModel.create(element);
+    });
 
-  return res.status(200).send({ status: " success", data: allPaiement });
+    const currentPaiement = await BillModel.find({
+      payout_period_start: currentDate,
+    }).select();
+    const allPaiement = await BillModel.find().select();
+
+    console.log("allPaiement", allPaiement);
+    console.log("currentPaiement", currentPaiement);
+
+    return res
+      .status(200)
+      .send({ status: "success", data: allPaiement, current: currentPaiement });
+  } catch (error) {
+    console.log("error :>> ", error);
+    return res.status(400).send({ status: "error", data: error });
+  }
 };
 
 module.exports.getAllEnded = async (req, res) => {
@@ -130,6 +145,17 @@ module.exports.info = async (req, res) => {
   }
 };
 
+module.exports.infobyFacebookId = async (req, res) => {
+  const params = req.params.id;
+  console.log("params :>> ", params);
+
+  if (!params) return res.status(400).send("ID unknown : " + req.params.id);
+  await BillModel.find({ facebook_Id: req.params.id }, (err, docs) => {
+    if (!err) {
+      res.send({ status: " success", data: docs });
+    } else console.log("ID unknown : " + err);
+  }).exec();
+};
 module.exports.infoby = async (req, res) => {
   const { facebook_name } = req.body;
   console.log("facebook_name", facebook_name);
