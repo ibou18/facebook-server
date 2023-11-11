@@ -30,9 +30,10 @@ router.get("/", billController.getAll);
 router.post("/month", billController.saveBills);
 // router.get("/info", billController.info);
 router.post("/upload", upload.single("file"), billController.uploadJson);
-router.post("/", uploadMaterielImage.array("files"), billController.create);
+
 router.get("/:id", billController.info);
 router.get("/by-facebook/:id", billController.infobyFacebookId);
+router.get("/info-by-period/:id", billController.infoByPeriod);
 router.patch("/:id", uploadMaterielImage.array("files"), billController.update);
 router.delete("/:id", billController.delete);
 

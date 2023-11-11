@@ -55,10 +55,14 @@ module.exports.uploadJson = async (req, res) => {
 };
 
 module.exports.saveBills = async (req, res) => {
+  const payout = req.body;
+  console.log("payout :>> ", payout);
+
   try {
     let currentDate;
     req.body.tab.forEach((element) => {
       currentDate = element.payout_period_start;
+      element.conversion = payout.conversion;
       BillModel.create(element);
     });
 
@@ -66,9 +70,6 @@ module.exports.saveBills = async (req, res) => {
       payout_period_start: currentDate,
     }).select();
     const allPaiement = await BillModel.find().select();
-
-    console.log("allPaiement", allPaiement);
-    console.log("currentPaiement", currentPaiement);
 
     return res
       .status(200)
@@ -86,53 +87,16 @@ module.exports.getAllEnded = async (req, res) => {
   return res.status(200).send({ status: " success", bill });
 };
 
-module.exports.create = async (req, res) => {
-  try {
-    let id = req.body.idPaiement ? req.body.idPaiement : null;
+module.exports.infoByPeriod = async (req, res) => {
+  const period = req.parms.payout_period_start;
 
-    const bill = {
-      nomPaiement: req.body.nomPaiement,
-      email: req.body.email,
-      adresse: req.body.adresse,
-      phone: req.body.phone,
-      idPaiement: id,
-      commandes: req.body.commandes,
-    };
-    const data = await BillModel.create(bill);
-
-    if (id == null) {
-      await sendMail(
-        data.email,
-        data.phone,
-        data.numeroCommande,
-        data.nomPaiement,
-        true
-      );
-      await sendMail(
-        data.email,
-        data.phone,
-        data.numeroCommande,
-        data.nomPaiement,
-        false
-      );
-    }
-
-    return res.status(201).send({ bill: data });
-  } catch (err) {
-    return res.status(400).send({ statut: "success", message: err });
-  }
+  if (!period) return res.status(400).send("ID unknown : " + req.params.id);
+  await BillModel.find({ payout_period_start: period }, (err, docs) => {
+    if (!err) {
+      res.send({ status: " success", data: docs });
+    } else console.log("ID unknown : " + err);
+  }).exec();
 };
-
-// module.exports.infoby = (req, res) => {
-//   const { facebook_name } = req.body;
-//   console.log("facebook_name", facebook_name);
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("ID unknown : " + req.params.id);
-//   BillModel.findById(req.params.id, (err, docs) => {
-//     if (!err) res.send(docs);
-//     else console.log("ID unknown : " + err);
-//   }).select();
-// };
 
 module.exports.info = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
@@ -155,20 +119,6 @@ module.exports.infobyFacebookId = async (req, res) => {
       res.send({ status: " success", data: docs });
     } else console.log("ID unknown : " + err);
   }).exec();
-};
-module.exports.infoby = async (req, res) => {
-  const { facebook_name } = req.body;
-  console.log("facebook_name", facebook_name);
-  if (!facebook_name)
-    return res.status(400).send("ID unknown : " + req.params.id);
-  await BillModel.find(
-    { facebook_name: req.body.facebook_name },
-    (err, docs) => {
-      if (!err) {
-        res.send({ status: " success", data: docs });
-      } else console.log("ID unknown : " + err);
-    }
-  ).exec();
 };
 
 module.exports.update = async (req, res) => {

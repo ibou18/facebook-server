@@ -6,6 +6,9 @@ const billShema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
     },
+    conversion: {
+      type: Number,
+    },
     payout_period_start: {
       type: String,
       // required: true,
