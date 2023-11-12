@@ -1,4 +1,5 @@
 const BillModel = require("../models/billModel");
+const PaiementModel = require("../models/paiementModel");
 const sendEmail = require("../utils/sendMail");
 const multer = require("multer");
 const fs = require("fs");
@@ -7,6 +8,7 @@ const upload = multer({ dest: "uploads/" });
 
 const ObjectID = require("mongoose").Types.ObjectId;
 const bill = require("../data/bill.json");
+const { uploadPayout } = require("../middleware/uploadImage");
 
 module.exports.getAll = async (req, res) => {
   const bills = await BillModel.find().sort({ createdAt: -1 }).select();
@@ -74,6 +76,37 @@ module.exports.saveBills = async (req, res) => {
     return res
       .status(200)
       .send({ status: "success", data: allPaiement, current: currentPaiement });
+  } catch (error) {
+    console.log("error :>> ", error);
+    return res.status(400).send({ status: "error", data: error });
+  }
+};
+
+module.exports.savePayout = async (req, res) => {
+  const payout = req.body;
+  try {
+    let currentDate;
+    req.body.tab.forEach((element) => {
+      currentDate = element.payout_period_start;
+      element.conversion = Number(payout.conversion);
+      BillModel.create(element);
+    });
+
+    await PaiementModel.create(payout);
+
+    // Retrieve all entries from the Paiement table
+    const allPayouts = await PaiementModel.find();
+    const currentPaiement = await BillModel.find({
+      payout_period_start: currentDate,
+    }).select();
+    const allPaiement = await BillModel.find().select();
+
+    return res.status(200).send({
+      status: "success",
+      data: allPaiement,
+      current: currentPaiement,
+      payout: allPayouts,
+    });
   } catch (error) {
     console.log("error :>> ", error);
     return res.status(400).send({ status: "error", data: error });
