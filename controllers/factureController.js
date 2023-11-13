@@ -10,6 +10,7 @@ module.exports.getAll = async (req, res) => {
     .select();
   return res.status(200).send({ status: "success", factures });
 };
+
 module.exports.create = async (req, res) => {
   const nb = await FactureModel.find().countDocuments();
   const facture = {
@@ -43,6 +44,7 @@ module.exports.create = async (req, res) => {
     return res.status(200).send({ status: "error", message: err });
   }
 };
+
 module.exports.info = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("ID unknown : " + req.params.id);

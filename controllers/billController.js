@@ -12,7 +12,10 @@ const { uploadPayout } = require("../middleware/uploadImage");
 
 module.exports.getAll = async (req, res) => {
   const bills = await BillModel.find().sort({ createdAt: -1 }).select();
-  return res.status(200).send({ status: " success", bills });
+  const allPayouts = await PaiementModel.find();
+  return res
+    .status(200)
+    .send({ status: " success", bills, payout: allPayouts });
 };
 
 module.exports.uploadJson = async (req, res) => {
@@ -185,14 +188,21 @@ module.exports.update = async (req, res) => {
 };
 
 module.exports.delete = async (req, res) => {
+  console.log("req.params.id", req.params.id);
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("ID unknown : " + req.params.id);
 
   try {
-    await BillModel.remove({ _id: req.params.id }).exec();
-    res.status(200).send({ message: "Successfully deleted. " });
+    const result = await BillModel.deleteOne({ _id: req.params.id }).exec();
+    console.log("remove :>> ", result);
+
+    if (result.deletedCount === 1) {
+      res.status(200).send({ message: "Successfully deleted. " });
+    } else {
+      res.status(404).send({ message: "Document not found." });
+    }
   } catch (err) {
-    return res.status(500).send({ message: err });
+    return res.status(500).send({ message: err.message });
   }
 };
 

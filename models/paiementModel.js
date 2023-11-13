@@ -27,40 +27,7 @@ const paiementShema = new mongoose.Schema(
     tab: {
       type: Array,
     },
-    // tab: {
-    //   type: [
-    //     {
-    //       payout_reference: {
-    //         type: Number,
-    //         // required: true,
-    //       },
-    //       payout_period_start: {
-    //         type: String,
-    //         // required: true,
-    //       },
-    //       payout_period_end: {
-    //         type: String,
-    //         // required: true,
-    //       },
-    //       product: {
-    //         type: String,
-    //         // required: true,
-    //       },
-    //       facebook_name: {
-    //         type: String,
-    //         // required: true,
-    //       },
-    //       facebook_Id: {
-    //         type: String,
-    //         default: "",
-    //       },
-    //       remittance: {
-    //         type: Number,
-    //         default: "",
-    //       },
-    //     },
-    //   ],
-    // },
+
     statut: {
       type: Boolean,
       default: false,
