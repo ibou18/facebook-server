@@ -23,6 +23,7 @@ var whitelist = [
   "http://localhost:3000",
   "https://facebook-front-uubv.vercel.app",
   "https://facebook-front.vercel.app",
+  "https://meta.laguidev.com",
 ];
 const corsOptions = {
   // origin: process.env.CLIENT_URL,
