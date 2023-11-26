@@ -88,11 +88,23 @@ module.exports.saveBills = async (req, res) => {
 module.exports.savePayout = async (req, res) => {
   const payout = req.body;
   try {
+    // Need to be deleted
     let currentDate;
     req.body.tab.forEach((element) => {
       currentDate = element.payout_period_start;
       element.conversion = Number(payout.conversion);
-      BillModel.create(element);
+      element.remittance = Number(element.remittance);
+      // BillModel.create(element);
+    });
+
+    payout.tab = payout.tab.map((element) => {
+      return {
+        ...element,
+        conversion: Number(payout.conversion),
+        remittance: Number(element.remittance),
+        status: false, // Set the status here
+        notes: "", // Add any notes here
+      };
     });
 
     await PaiementModel.create(payout);
@@ -102,6 +114,7 @@ module.exports.savePayout = async (req, res) => {
     const currentPaiement = await BillModel.find({
       payout_period_start: currentDate,
     }).select();
+
     const allPaiement = await BillModel.find().select();
 
     return res.status(200).send({
@@ -140,6 +153,8 @@ module.exports.info = async (req, res) => {
   let bill = await BillModel.findOne({ _id: req.params.id })
     // .populate("idClient")
     .select();
+
+  console.log("bill :>> ", bill);
   if (bill) {
     return res.status(200).send({ status: "success", bill });
   }
@@ -194,7 +209,6 @@ module.exports.delete = async (req, res) => {
 
   try {
     const result = await BillModel.deleteOne({ _id: req.params.id }).exec();
-    console.log("remove :>> ", result);
 
     if (result.deletedCount === 1) {
       res.status(200).send({ message: "Successfully deleted. " });

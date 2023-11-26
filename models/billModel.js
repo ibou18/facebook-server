@@ -29,6 +29,10 @@ const billShema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    notes: {
+      type: String,
+      default: "",
+    },
     payment_number: {
       type: Number,
     },

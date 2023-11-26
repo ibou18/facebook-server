@@ -20,12 +20,24 @@ const clientSchema = new mongoose.Schema(
     },
     facebook_name: {
       type: String,
+      required: true,
     },
     facebook_Id: {
       type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
+      length: 10,
     },
     pourcentage: {
       type: Number,
+    },
+    method_paiment: {
+      type: String,
+    },
+    status: {
+      type: Boolean,
     },
   },
   {

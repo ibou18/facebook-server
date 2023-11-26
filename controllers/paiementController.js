@@ -133,13 +133,18 @@ module.exports.create = async (req, res) => {
   }
 };
 
-module.exports.info = (req, res) => {
+module.exports.info = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("ID unknown : " + req.params.id);
-  PaiementModel.findById(req.params.id, (err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("ID unknown : " + err);
-  }).select();
+
+  try {
+    const paiementInfo = await PaiementModel.findById(req.params.id).select();
+    if (paiementInfo)
+      return res.status(200).send({ status: "success", data: paiementInfo });
+    else return res.status(404).send("Document not found");
+  } catch (error) {
+    return res.status(500).send({ status: "error", message: error.message });
+  }
 };
 
 module.exports.update = async (req, res) => {

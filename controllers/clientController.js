@@ -7,7 +7,12 @@ module.exports.getAllClient = async (req, res) => {
 };
 
 module.exports.getClient = async (req, res) => {
-  const clients = await ClientModel.findOne({ _id: req.params.id }).select();
+  console.log("req.params :>> ", req.params);
+  const clients = await ClientModel.findOne({
+    facebook_Id: req.params.id,
+  }).select();
+
+  console.log("clients :>> ", clients);
   return res.status(200).send({ status: "success", clients });
 };
 
@@ -19,6 +24,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Pathè Moloko",
       pourcentage: 0.7,
       email: "PathèMoloko@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "1554909011221861",
@@ -26,6 +32,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Anata fooly",
       pourcentage: 0.7,
       email: "Anatafooly@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "101983759180001",
@@ -33,6 +40,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Habib Fatako",
       pourcentage: 0.7,
       email: "HabibFatako@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "104650564990487",
@@ -40,6 +48,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Fashion Shop by ADA",
       pourcentage: 0.7,
       email: "FashionShopbyADA@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "102577008652506",
@@ -47,6 +56,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Hadja ousmane sow labé officiel",
       pourcentage: 0.7,
       email: "Hadjaousmanesowlabéofficiel@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "658234430975680",
@@ -54,6 +64,7 @@ module.exports.createBulk = async (req, res) => {
       name: "K2R Welcome PROD",
       pourcentage: 0.7,
       email: "K2RWelcomePROD@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "105613565010880",
@@ -61,6 +72,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Kade Seck Officiel",
       pourcentage: 0.7,
       email: "KadeSeckOfficiel@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "103548195257395",
@@ -68,6 +80,7 @@ module.exports.createBulk = async (req, res) => {
       name: "M'boma",
       pourcentage: 0.7,
       email: "M'boma@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "106867395064329",
@@ -75,6 +88,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Mamadi condé",
       pourcentage: 0.7,
       email: "Mamadicondé@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "434527290083181",
@@ -82,6 +96,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Oumi korka Sow",
       pourcentage: 0.7,
       email: "OumikorkaSow@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "100421322205275",
@@ -89,6 +104,7 @@ module.exports.createBulk = async (req, res) => {
       name: "Paikoun Saré Officiel",
       pourcentage: 0.7,
       email: "PaikounSaréOfficiel@facebook.com",
+      phone: "0123456789",
     },
     {
       facebook_Id: "103946372041953",
@@ -96,6 +112,15 @@ module.exports.createBulk = async (req, res) => {
       name: "PSTV officiel",
       pourcentage: 0.7,
       email: "PSTVofficiel@facebook.com",
+      phone: "0123456789",
+    },
+    {
+      facebook_Id: "101486234964042",
+      facebook_name: "Diallo mix toun",
+      name: "Diallo mix toun",
+      pourcentage: 0.7,
+      email: "diallomixtoun@facebook.com",
+      phone: "0123456789",
     },
   ];
   try {

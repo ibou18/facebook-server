@@ -27,7 +27,6 @@ const paiementShema = new mongoose.Schema(
     tab: {
       type: Array,
     },
-
     statut: {
       type: Boolean,
       default: false,
