@@ -2,7 +2,7 @@ const UserModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("../utils/sendMail");
 
-const maxAge = 10 * 24 * 60 * 60 * 1000;
+const maxAge = 100 * 24 * 60 * 60 * 1000;
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, {
