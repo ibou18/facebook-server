@@ -7,7 +7,6 @@ module.exports.getAllClient = async (req, res) => {
 };
 
 module.exports.getClient = async (req, res) => {
-  console.log("req.params :>> ", req.params);
   const clients = await ClientModel.findOne({
     facebook_Id: req.params.id,
   }).select();

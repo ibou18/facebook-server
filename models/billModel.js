@@ -9,6 +9,21 @@ const billShema = new mongoose.Schema(
     conversion: {
       type: Number,
     },
+    payout_reference: {
+      type: String,
+    },
+    payment_date: {
+      type: String,
+    },
+    payment_currency: {
+      type: String,
+    },
+    conversion: {
+      type: Number,
+    },
+    pourcentage: {
+      type: Number,
+    },
     payout_period_start: {
       type: String,
       // required: true,

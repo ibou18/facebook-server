@@ -9,6 +9,7 @@ const upload = multer({ dest: "uploads/" });
 const ObjectID = require("mongoose").Types.ObjectId;
 const bill = require("../data/bill.json");
 const { uploadPayout } = require("../middleware/uploadImage");
+const ClientModel = require("../models/clientModel");
 
 module.exports.getAll = async (req, res) => {
   const bills = await BillModel.find().sort({ createdAt: -1 }).select();
@@ -16,6 +17,16 @@ module.exports.getAll = async (req, res) => {
   return res
     .status(200)
     .send({ status: " success", bills, payout: allPayouts });
+};
+module.exports.getAllByRef = async (req, res) => {
+  const reference = req.params.id;
+  const payoutByRef = await BillModel.find({
+    payout_reference: reference,
+  })
+    .sort({ createdAt: -1 })
+    .select();
+
+  return res.status(200).send({ status: " success", data: payoutByRef });
 };
 
 module.exports.uploadJson = async (req, res) => {
@@ -61,7 +72,6 @@ module.exports.uploadJson = async (req, res) => {
 
 module.exports.saveBills = async (req, res) => {
   const payout = req.body;
-  console.log("payout :>> ", payout);
 
   try {
     let currentDate;
@@ -87,26 +97,41 @@ module.exports.saveBills = async (req, res) => {
 
 module.exports.savePayout = async (req, res) => {
   const payout = req.body;
+  const clients = await ClientModel.find().select();
+  console.log("clients", clients);
   try {
     // Need to be deleted
     let currentDate;
-    req.body.tab.forEach((element) => {
-      currentDate = element.payout_period_start;
-      element.conversion = Number(payout.conversion);
-      element.remittance = Number(element.remittance);
-      // BillModel.create(element);
-    });
+    if (clients.length > 0)
+      req.body.tab.forEach((element) => {
+        pourcentage = clients.find(
+          (client) => client.facebook_name === element.facebook_name
+        ).pourcentage;
+        currentDate = element.payout_period_start;
+        element.conversion = Number(payout.conversion);
+        element.remittance = Number(element.remittance);
+        payout_reference = req.body.payment_number;
+        payment_currency = req.body.payment_currency;
+        payment_date = req.body.payment_date;
+      });
 
     payout.tab = payout.tab.map((element) => {
       return {
         ...element,
         conversion: Number(payout.conversion),
         remittance: Number(element.remittance),
-        status: false, // Set the status here
-        notes: "", // Add any notes here
+        payout_reference: req.body.payment_number,
+        payment_currency: req.body.payment_currency,
+        payment_date: req.body.payment_date,
+        pourcentage: clients.find(
+          (client) => client.facebook_name === element.facebook_name
+        ).pourcentage,
+        status: false,
+        notes: "",
       };
     });
 
+    const databill = await BillModel.create(payout.tab);
     await PaiementModel.create(payout);
 
     // Retrieve all entries from the Paiement table
@@ -119,8 +144,8 @@ module.exports.savePayout = async (req, res) => {
 
     return res.status(200).send({
       status: "success",
+      bill: databill,
       data: allPaiement,
-      current: currentPaiement,
       payout: allPayouts,
     });
   } catch (error) {
@@ -154,7 +179,6 @@ module.exports.info = async (req, res) => {
     // .populate("idClient")
     .select();
 
-  console.log("bill :>> ", bill);
   if (bill) {
     return res.status(200).send({ status: "success", bill });
   }
