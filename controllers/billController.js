@@ -98,7 +98,7 @@ module.exports.saveBills = async (req, res) => {
 module.exports.savePayout = async (req, res) => {
   const payout = req.body;
   const clients = await ClientModel.find().select();
-  console.log("clients", clients);
+
   try {
     // Need to be deleted
     let currentDate;
