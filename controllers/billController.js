@@ -70,6 +70,18 @@ module.exports.uploadJson = async (req, res) => {
   });
 };
 
+module.exports.createBill = async (req, res) => {
+  const payout = req.body;
+
+  try {
+    const data = await BillModel.create(payout);
+
+    return res.status(200).send({ status: "success", data });
+  } catch (error) {
+    console.log("error :>> ", error);
+    return res.status(400).send({ status: "error", data: error });
+  }
+};
 module.exports.saveBills = async (req, res) => {
   const payout = req.body;
 
@@ -114,6 +126,7 @@ module.exports.savePayout = async (req, res) => {
         payment_currency = req.body.payment_currency;
         payment_date = req.body.payment_date;
       });
+    //
 
     payout.tab = payout.tab.map((element) => {
       return {

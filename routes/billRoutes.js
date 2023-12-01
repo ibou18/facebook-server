@@ -30,6 +30,7 @@ const upload = multer({ dest: "uploads/" });
 router.get("/", billController.getAll);
 router.get("/reference/:id", billController.getAllByRef);
 router.post("/month", billController.saveBills);
+router.post("/", billController.createBill);
 router.post("/payout", uploadPayout.single("file"), billController.savePayout);
 router.post("/upload", upload.single("file"), billController.uploadJson);
 
