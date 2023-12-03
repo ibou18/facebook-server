@@ -37,7 +37,7 @@ router.post("/upload", upload.single("file"), billController.uploadJson);
 router.get("/:id", billController.info);
 router.get("/by-facebook/:id", billController.infobyFacebookId);
 router.get("/info-by-period/:id", billController.infoByPeriod);
-router.patch("/:id", uploadMaterielImage.array("files"), billController.update);
+router.patch("/:id", billController.update);
 router.delete("/:id", billController.delete);
 
 module.exports = router;

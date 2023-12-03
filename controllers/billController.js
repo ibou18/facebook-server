@@ -18,6 +18,7 @@ module.exports.getAll = async (req, res) => {
     .status(200)
     .send({ status: " success", bills, payout: allPayouts });
 };
+
 module.exports.getAllByRef = async (req, res) => {
   const reference = req.params.id;
   const payoutByRef = await BillModel.find({
@@ -213,15 +214,25 @@ module.exports.update = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("ID unknown : " + req.params.id);
   try {
+    console.log("req.body", req.body);
     await BillModel.findOneAndUpdate(
       { _id: req.params.id },
       {
         $set: {
-          nomPaiement: req.body.nomPaiement,
-          email: req.body.email,
-          adresse: req.body.adresse,
-          phone: req.body.phone,
-          commandes: req.body.commandes,
+          payout_reference: req.body.payout_reference,
+          payment_number: null,
+          payout_period_start: req.body.payout_period_start,
+          payout_period_end: req.body.payout_period_end,
+          facebook_name: req.body.facebook_name,
+          facebook_Id: req.body.facebook_Id,
+          notes: req.body.notes,
+          statut: req.body.statut,
+          product: req.body.product,
+          remittance: req.body.remittance,
+          conversion: req.body.conversion,
+          payment_currency: "USD",
+          payment_date: req.body.payment_date,
+          pourcentage: req.body.pourcentage,
         },
       },
       { new: true, upsert: true, setDefaultsOnInsert: true },
