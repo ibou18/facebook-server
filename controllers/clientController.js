@@ -148,6 +148,16 @@ module.exports.update = async (req, res) => {
       {
         $set: {
           paiement: req.body.paiement,
+          facebook_Id: req.body.facebook_Id,
+          facebook_name: req.body.facebook_name,
+          name: req.body.name,
+          pourcentage: req.body.pourcentage,
+          email: req.body.email,
+          vpn_name: req.body.vpn_name,
+          vpn_account: req.body.vpn_account,
+          status: req.body.status,
+          method_paiment: req.body.method_paiment,
+          comments: req.body.comments,
         },
       },
       { new: true, upsert: true, setDefaultsOnInsert: true },

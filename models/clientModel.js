@@ -29,7 +29,6 @@ const clientSchema = new mongoose.Schema(
     },
     vpn_name: {
       type: String,
-      enum: ["NordVPN", "ExpressVPN", "CyberGhost"],
       default: "",
     },
     vpn_account: {
@@ -44,6 +43,9 @@ const clientSchema = new mongoose.Schema(
       type: Number,
     },
     method_paiment: {
+      type: String,
+    },
+    comments: {
       type: String,
     },
     status: {
