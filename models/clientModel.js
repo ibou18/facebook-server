@@ -1,3 +1,4 @@
+const e = require("express");
 const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 
@@ -25,6 +26,15 @@ const clientSchema = new mongoose.Schema(
     facebook_Id: {
       type: String,
       required: true,
+    },
+    vpn_name: {
+      type: String,
+      enum: ["NordVPN", "ExpressVPN", "CyberGhost"],
+      default: "",
+    },
+    vpn_account: {
+      type: String,
+      default: "",
     },
     phone: {
       type: Number,
