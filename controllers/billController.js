@@ -113,37 +113,26 @@ module.exports.savePayout = async (req, res) => {
   const clients = await ClientModel.find().select();
 
   try {
-    // Need to be deleted
     let currentDate;
-    if (clients.length > 0)
-      req.body.tab.forEach((element) => {
-        pourcentage = clients.find(
+    if (!!clients) {
+      payout.tab = payout.tab.map((element) => {
+        const client = clients.find(
           (client) => client.facebook_name === element.facebook_name
-        ).pourcentage;
-        currentDate = element.payout_period_start;
-        element.conversion = Number(payout.conversion);
-        element.remittance = Number(element.remittance);
-        payout_reference = req.body.payment_number;
-        payment_currency = req.body.payment_currency;
-        payment_date = req.body.payment_date;
+        );
+        return {
+          ...element,
+          conversion: Number(payout.conversion),
+          remittance: Number(element.remittance),
+          payout_reference: req.body.payment_number,
+          payment_currency: req.body.payment_currency,
+          payment_date: req.body.payment_date,
+          pourcentage: client ? client.pourcentage : 0.7,
+          status: false,
+          notes: "",
+        };
       });
-    //
-
-    payout.tab = payout.tab.map((element) => {
-      return {
-        ...element,
-        conversion: Number(payout.conversion),
-        remittance: Number(element.remittance),
-        payout_reference: req.body.payment_number,
-        payment_currency: req.body.payment_currency,
-        payment_date: req.body.payment_date,
-        pourcentage: clients.find(
-          (client) => client.facebook_name === element.facebook_name
-        ).pourcentage,
-        status: false,
-        notes: "",
-      };
-    });
+      console.log("payout.tab :>> ", payout.tab);
+    }
 
     const databill = await BillModel.create(payout.tab);
     await PaiementModel.create(payout);
