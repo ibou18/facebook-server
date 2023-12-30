@@ -10,7 +10,6 @@ const clientSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -41,6 +40,8 @@ const clientSchema = new mongoose.Schema(
     },
     pourcentage: {
       type: Number,
+      required: true,
+      default: 0.7,
     },
     method_paiment: {
       type: String,
