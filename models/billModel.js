@@ -12,6 +12,9 @@ const billShema = new mongoose.Schema(
     payout_reference: {
       type: String,
     },
+    payout_number: {
+      type: String,
+    },
     payment_date: {
       type: String,
     },

@@ -75,7 +75,7 @@ module.exports.getPaiementbyName = async (req, res) => {
     (sum, item) => sum + item.remittance,
     0
   );
-  console.log("total :>> ", total_remittance.toFixed(2));
+
   return res
     .status(200)
     .send({ status: " success", data: result, total_remittance });
