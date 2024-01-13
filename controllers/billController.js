@@ -128,10 +128,11 @@ module.exports.savePayout = async (req, res) => {
           payment_date: req.body.payment_date,
           pourcentage: client ? client.pourcentage : 0.7,
           status: false,
+          payee: req.body.payee,
           notes: "",
+          custom_id: Math.floor(100000 + Math.random() * 900000),
         };
       });
-      console.log("payout.tab :>> ", payout.tab);
     }
 
     const databill = await BillModel.create(payout.tab);

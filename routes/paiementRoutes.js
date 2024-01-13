@@ -27,13 +27,9 @@ const upload = multer({ dest: "uploads/" });
 router.get("/", paiementController.getAll);
 router.get("/detail/:facebook_Id", paiementController.getPaiementbyName);
 router.post("/upload", upload.single("file"), paiementController.uploadJson);
-router.post("/", uploadMaterielImage.array("files"), paiementController.create);
+// router.post("/", uploadMaterielImage.array("files"), paiementController.create);
 router.get("/:id", paiementController.info);
-router.patch(
-  "/:id",
-  uploadMaterielImage.array("files"),
-  paiementController.update
-);
+router.patch("/", paiementController.update);
 router.delete("/:id", paiementController.delete);
 
 module.exports = router;

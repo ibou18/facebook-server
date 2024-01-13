@@ -88,51 +88,6 @@ module.exports.getAllEnded = async (req, res) => {
   return res.status(200).send({ status: " success", paiement });
 };
 
-module.exports.create = async (req, res) => {
-  try {
-    let id = req.body.idPaiement ? req.body.idPaiement : null;
-    // if (req.body.idPaiement === null) {
-    //   const paiement = await PaiementModel.create({
-    //     name: req.body.nomPaiement,
-    //     email: req.body.email,
-    //     adresse: req.body.adresse,
-    //     tel: req.body.phone,
-    //   });
-    //   id = paiement._id;
-    // }
-    const paiement = {
-      nomPaiement: req.body.nomPaiement,
-      email: req.body.email,
-      adresse: req.body.adresse,
-      phone: req.body.phone,
-      idPaiement: id,
-      commandes: req.body.commandes,
-    };
-    const data = await PaiementModel.create(paiement);
-
-    if (id == null) {
-      await sendMail(
-        data.email,
-        data.phone,
-        data.numeroCommande,
-        data.nomPaiement,
-        true
-      );
-      await sendMail(
-        data.email,
-        data.phone,
-        data.numeroCommande,
-        data.nomPaiement,
-        false
-      );
-    }
-
-    return res.status(201).send({ paiement: data });
-  } catch (err) {
-    return res.status(400).send({ statut: "success", message: err });
-  }
-};
-
 module.exports.info = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("ID unknown : " + req.params.id);
@@ -148,32 +103,25 @@ module.exports.info = async (req, res) => {
 };
 
 module.exports.update = async (req, res) => {
-  if (!ObjectID.isValid(req.params.id))
-    return res.status(400).send("ID unknown : " + req.params.id);
+  const { id, custom_id, update } = req.body;
+
   try {
-    await PaiementModel.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $set: {
-          nomPaiement: req.body.nomPaiement,
-          email: req.body.email,
-          adresse: req.body.adresse,
-          phone: req.body.phone,
-          commandes: req.body.commandes,
-        },
-      },
-      { new: true, upsert: true, setDefaultsOnInsert: true },
-      (err, docs) => {
-        if (!err) {
-          return res.status(200).send({ statut: "sucess", paiement: docs });
-        }
-        if (err) {
-          return res.status(500).send({ statut: "sucess", message: err });
-        }
-      }
+    let updateQuery = {};
+    for (let key in update) {
+      updateQuery[`tab.$.${key}`] = update[key];
+    }
+
+    const data = await PaiementModel.findOneAndUpdate(
+      { _id: id, "tab.custom_id": custom_id },
+      { $set: updateQuery },
+      { new: true }
     );
+
+    console.log("data :>> ", data);
+
+    res.status(200).send({ message: "Successfully updated. " });
   } catch (err) {
-    return res.status(500).send({ message: err });
+    return res.status(500).send({ message: err.message });
   }
 };
 
