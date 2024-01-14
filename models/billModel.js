@@ -3,7 +3,7 @@ const AutoIncrement = require("mongoose-sequence")(mongoose);
 const billShema = new mongoose.Schema(
   {
     idClient: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Client",
     },
     conversion: {

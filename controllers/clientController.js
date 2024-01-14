@@ -9,7 +9,10 @@ module.exports.getAllClient = async (req, res) => {
 module.exports.getClient = async (req, res) => {
   const clients = await ClientModel.findOne({
     facebook_Id: req.params.id,
-  }).select();
+  }).populate({
+    path: "bills",
+    match: { facebook_Id: req.params.facebook_Id },
+  });
 
   console.log("clients :>> ", clients);
   return res.status(200).send({ status: "success", clients });

@@ -131,6 +131,7 @@ module.exports.savePayout = async (req, res) => {
           payee: req.body.payee,
           notes: "",
           custom_id: Math.floor(100000 + Math.random() * 900000),
+          facebook_Id: client ? client.facebook_Id : null,
         };
       });
     }

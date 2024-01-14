@@ -4,10 +4,12 @@ const { isEmail } = require("validator");
 
 const clientSchema = new mongoose.Schema(
   {
-    idBill: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Bill",
-    },
+    bills: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bill",
+      },
+    ],
     name: {
       type: String,
     },

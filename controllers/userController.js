@@ -66,11 +66,23 @@ module.exports.getStatistique = async (req, res) => {
 
   let monthGraph = await BillModel.aggregate([
     {
+      $addFields: {
+        convertedDate: {
+          $toDate: "$payment_date",
+        },
+      },
+    },
+    {
       $group: {
-        _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+        _id: { $dateToString: { format: "%Y-%m", date: "$convertedDate" } },
         MontantTotal: {
           $sum: "$remittance",
         },
+      },
+    },
+    {
+      $sort: {
+        _id: 1, // trier par _id en ordre croissant
       },
     },
   ]);
