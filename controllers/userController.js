@@ -87,12 +87,28 @@ module.exports.getStatistique = async (req, res) => {
     },
   ]);
 
-  let MontantHt = 0;
-  let MontantTtc = 0;
-  await factures.forEach((facture) => {
-    MontantHt = MontantHt + facture.montantHt;
-    MontantTtc = MontantTtc + facture.montantTtc;
-  });
+  let yearGraph = await BillModel.aggregate([
+    {
+      $addFields: {
+        convertedDate: {
+          $toDate: "$payment_date",
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y", date: "$convertedDate" } }, // Modifier le format pour n'inclure que l'année
+        MontantTotal: {
+          $sum: "$remittance",
+        },
+      },
+    },
+    {
+      $sort: {
+        _id: 1, // trier par _id en ordre croissant
+      },
+    },
+  ]);
 
   return res.status(200).send({
     status: "success",
@@ -100,9 +116,8 @@ module.exports.getStatistique = async (req, res) => {
       totalPaiement,
       totalBill,
       totalClient,
-      MontantHt,
-      MontantTtc,
       monthGraph,
+      yearGraph,
     },
   });
 };
