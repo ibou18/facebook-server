@@ -64,7 +64,7 @@ module.exports.getStatistique = async (req, res) => {
   const factures = await FactureModel.find().select();
   // const facturesF = await FactureModel.find().group('createdAt').select();
 
-  let monthGraph = await BillModel.aggregate([
+  let monthGraph = await PaiementModel.aggregate([
     {
       $addFields: {
         convertedDate: {
@@ -76,7 +76,7 @@ module.exports.getStatistique = async (req, res) => {
       $group: {
         _id: { $dateToString: { format: "%Y-%m", date: "$convertedDate" } },
         MontantTotal: {
-          $sum: "$remittance",
+          $sum: { $toDouble: "$payment_amount" }, // Convertir remittance en nombre avant de l'additionner
         },
       },
     },
@@ -87,7 +87,7 @@ module.exports.getStatistique = async (req, res) => {
     },
   ]);
 
-  let yearGraph = await BillModel.aggregate([
+  let yearGraph = await PaiementModel.aggregate([
     {
       $addFields: {
         convertedDate: {
@@ -97,9 +97,9 @@ module.exports.getStatistique = async (req, res) => {
     },
     {
       $group: {
-        _id: { $dateToString: { format: "%Y", date: "$convertedDate" } }, // Modifier le format pour n'inclure que l'année
+        _id: { $dateToString: { format: "%Y", date: "$convertedDate" } },
         MontantTotal: {
-          $sum: "$remittance",
+          $sum: { $toDouble: "$payment_amount" }, // Convertir payment_amount en nombre avant de l'additionner
         },
       },
     },
