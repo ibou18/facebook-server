@@ -24,6 +24,7 @@ var whitelist = [
   "https://facebook-front-uubv.vercel.app",
   "https://facebook-front.vercel.app",
   "https://meta.laguidev.com",
+  "https://facebook-front-moctar.vercel.app",
 ];
 const corsOptions = {
   // origin: process.env.CLIENT_URL,
@@ -89,64 +90,3 @@ if (process.env.NODE_ENV === "production") {
 app.listen(process.env.PORT, () => {
   console.log(`🚀 Listening on port ${process.env.PORT}`);
 });
-
-const data = {
-  statut: false,
-  _id: "65a1cb02f71015bd06a82193",
-  payment_amount: "15155.55",
-  payment_currency: "USD",
-  payment_date: "2023-09-21T04:00:00.000Z",
-  payment_number: 6647147125401094,
-  total: "15155.55",
-  createdAt: "2024-01-12T23:28:02.080Z",
-  updatedAt: "2024-01-12T23:28:02.080Z",
-  __v: 0,
-  tab: [
-    {
-      facebook_Id: "1554909011221861",
-      facebook_name: "Anata fooly",
-      payout_period_end: "31-Aug-2023",
-      payout_period_start: "01-Aug-2023",
-      payout_reference: "6647147125401094",
-      product: "Ads on Reels",
-      remittance: 0.15,
-      conversion: 1,
-      payment_currency: "USD",
-      payment_date: "21-Sep-2023",
-      pourcentage: 0.7,
-      status: false,
-      notes: "",
-    },
-
-    {
-      facebook_Id: "103665318627717",
-      facebook_name: "Safi officiel",
-      payout_period_end: "31-Aug-2023",
-      payout_period_start: "01-Aug-2023",
-      payout_reference: "6647147125401094",
-      product: "Video Ad Activity",
-      remittance: 13.23,
-      conversion: 1,
-      payment_currency: "USD",
-      payment_date: "21-Sep-2023",
-      pourcentage: 0.7,
-      status: false,
-      notes: "",
-    },
-    {
-      facebook_Id: "103665318627717",
-      facebook_name: "Safi officiel",
-      payout_period_end: "31-Aug-2023",
-      payout_period_start: "01-Aug-2023",
-      payout_reference: "6647147125401094",
-      product: "Video Ad Activity",
-      remittance: 0.07,
-      conversion: 1,
-      payment_currency: "USD",
-      payment_date: "21-Sep-2023",
-      pourcentage: 0.7,
-      status: false,
-      notes: "",
-    },
-  ],
-};

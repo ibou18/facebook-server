@@ -13,32 +13,11 @@ s3 = new aws.S3();
 module.exports.uploadPayout = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "facebook-lagui/docs",
+    bucket: process.env.URL_BUCKET,
+    acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
       cb(null, file.originalname);
-    },
-  }),
-});
-
-module.exports.uploadImageActors = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "lagui-cinema-mobile/acteurs",
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: function (req, file, cb) {
-      cb(null, Date.now() + file.originalname);
-    },
-  }),
-});
-
-module.exports.uploadImagePublication = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "lagui-cinema/movies",
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: function (req, file, cb) {
-      cb(null, Date.now() + file.originalname);
     },
   }),
 });
