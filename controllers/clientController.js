@@ -1,3 +1,4 @@
+const BillModel = require("../models/billModel");
 const ClientModel = require("../models/clientModel");
 const ObjectID = require("mongoose").Types.ObjectId;
 
@@ -7,15 +8,19 @@ module.exports.getAllClient = async (req, res) => {
 };
 
 module.exports.getClient = async (req, res) => {
+  console.log("req.params.facebook_Id :>> ", req.params.id);
   const clients = await ClientModel.findOne({
     facebook_Id: req.params.id,
   }).populate({
-    path: "bills",
+    path: "bill",
     match: { facebook_Id: req.params.facebook_Id },
   });
 
-  console.log("clients :>> ", clients);
-  return res.status(200).send({ status: "success", clients });
+  const bills = await BillModel.find({
+    facebook_Id: req.params.id,
+  });
+
+  return res.status(200).send({ status: "success", clients, paiements: bills });
 };
 
 module.exports.createBulk = async (req, res) => {
