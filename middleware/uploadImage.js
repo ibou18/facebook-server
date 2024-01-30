@@ -14,7 +14,6 @@ module.exports.uploadPayout = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.URL_BUCKET,
-    acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
       cb(null, file.originalname);
