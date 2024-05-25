@@ -17,6 +17,7 @@ const clientRoutes = require("./routes/clientRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 const paiementRoutes = require("./routes/paiementRoutes");
 const billRoutes = require("./routes/billRoutes");
+const youtubeRoutes = require("./routes/youtubeRoutes");
 // const { checkUser, requireAuth } = require("./middleware/auth.middleware");
 
 var whitelist = [
@@ -76,6 +77,7 @@ app.use("/api/clients", clientRoutes);
 app.use("/api/paiements", paiementRoutes);
 app.use("/api/document", documentRoutes);
 app.use("/api/bill", billRoutes);
+app.use("/api/youtube", youtubeRoutes);
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
