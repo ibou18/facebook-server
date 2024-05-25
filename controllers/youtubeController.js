@@ -2,7 +2,7 @@ const YoutubeModel = require("../models/YoutubeModel");
 const ObjectID = require("mongoose").Types.ObjectId;
 
 module.exports.getAll = async (req, res) => {
-  const youtubes = await YoutubeModel.find().select();
+  const youtubes = await YoutubeModel.find().populate("client");
   res.status(200).json(youtubes);
 };
 module.exports.create = async (req, res) => {
