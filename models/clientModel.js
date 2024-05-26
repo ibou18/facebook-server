@@ -24,6 +24,10 @@ const clientSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    youtube_name: {
+      type: String,
+      required: false,
+    },
     facebook_Id: {
       type: String,
       required: true,
@@ -41,6 +45,11 @@ const clientSchema = new mongoose.Schema(
       length: 10,
     },
     pourcentage: {
+      type: Number,
+      required: true,
+      default: 0.7,
+    },
+    pourcentage_youtube: {
       type: Number,
       required: true,
       default: 0.7,

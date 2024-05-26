@@ -60,7 +60,9 @@ module.exports.uploadJson = async (req, res) => {
 };
 
 module.exports.getPaiementbyName = async (req, res) => {
-  const paiement = await PaiementModel.find().sort({ createdAt: -1 }).select();
+  const paiement = await PaiementModel.find()
+    .sort({ payment_date: -1 })
+    .select();
   const facebook_Id = req.params.facebook_Id;
   let _temp = [];
 
